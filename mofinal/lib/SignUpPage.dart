@@ -14,7 +14,7 @@ class _SignUpPageState extends State<SignUpPage> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var nameController = TextEditingController();
-  var percentageController = TextEditingController();
+  var goalController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +37,14 @@ class _SignUpPageState extends State<SignUpPage> {
               // ignore: prefer_const_constructors
               Expanded(
                 flex:10,
-                child: Text(
-                  "SIGN UP",
-                  style: TextStyle(
-                    fontSize: 32,
-                  )  
+                child: Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Text(
+                    "SIGN UP",
+                    style: TextStyle(
+                      fontSize: 32,
+                    )  
+                  ),
                 ),
               ),
               Expanded(
@@ -91,13 +94,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 flex: 10,
                 child: 
                 Container(
-                  width: 200,
-                  margin: EdgeInsets.only(left: 50, right: 50, top: 0, bottom: 0),
+                  margin: EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 0),
                   child: TextField(
-                    controller: percentageController,
+                    controller: goalController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Percentage',
+                      hintText: 'Goal',
                     ),
                   ),
                 )

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:mofinal/GoalListPage.dart';
 import 'package:mofinal/SignUpPage.dart';
 
 void main() {
@@ -116,7 +117,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     child: Text("Login"),
                     onPressed: () =>{
-                      
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const GoalListPage()),
+                      ),
                     },
                   ),
                 ),

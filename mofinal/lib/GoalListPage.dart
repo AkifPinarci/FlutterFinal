@@ -146,7 +146,7 @@ class _GoalListPageState extends State<GoalListPage> {
                       checkColor: Colors.white,
                       onChanged: (bool? value) {
                         setState(() {
-                          checkMark[index] = value!;
+                          friendList[index]["compete"] = value!;
                         });
                       }, 
                       value: friendList[index]["compete"],

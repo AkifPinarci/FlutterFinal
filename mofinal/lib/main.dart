@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mofinal/GoalListPage.dart';
 import 'package:mofinal/SignUpPage.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -117,9 +120,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     child: Text("Login"),
                     onPressed: () =>{
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const GoalListPage()),
+                      FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text)
+                        .then((value){
+                          print("Logged in with email and password");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const GoalListPage()),
+                          );
+                        })
+                        .catchError((onError){
+                          print("Failed to login!");
+                          print(onError.toString());
+                        }
                       ),
                     },
                   ),

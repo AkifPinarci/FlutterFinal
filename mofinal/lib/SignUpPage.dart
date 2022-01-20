@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_ignore, avoid_unnecessary_containers, unnecessary_new, deprecated_member_use
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_ignore, avoid_unnecessary_containers, unnecessary_new, deprecated_member_use, non_constant_identifier_names, avoid_types_as_parameter_names, avoid_print
 
 import "package:flutter/material.dart";
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 class SignUpPage extends StatefulWidget {
   const SignUpPage({ Key? key }) : super(key: key);
@@ -99,7 +101,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     controller: goalController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Goal',
+                      hintText: 'Goal Percentege',
                     ),
                   ),
                 )
@@ -116,7 +118,32 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     child: Text("Sign Up"),
                     onPressed: () =>{
-                      Navigator.pop(context)
+                      FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text)
+                      .then((UserCredential){
+                        print("Succesfully signed up! uID:"+ UserCredential.user!.uid.toString());
+
+                        var userProfile = {
+                          'uid': UserCredential.user!.uid.toString(),
+                          'name' : nameController.text,
+                          'email' : emailController.text,
+                          'goal' : goalController.text,
+                          'tasks': null,
+                        };
+                          
+                        FirebaseDatabase.instance.reference().child("profile/"+ UserCredential.user!.uid.toString())
+                          .set(userProfile)
+                          .then((value){
+                            print("Created the profile");
+                          })
+                          .catchError((onError){
+                            print("Failed to created the profile");
+                          });
+                        Navigator.pop(context);
+                      }).catchError((onError){
+                        print("Failed to sign up!");
+                        print(onError.toString());
+                      }
+                      ),
                     },
                   ),
                 ),
